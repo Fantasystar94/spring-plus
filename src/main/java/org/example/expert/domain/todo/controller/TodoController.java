@@ -2,6 +2,8 @@ package org.example.expert.domain.todo.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.expert.config.AuthContext;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
@@ -16,16 +18,17 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class TodoController {
 
     private final TodoService todoService;
 
     @PostMapping("/todos")
     public ResponseEntity<TodoSaveResponse> saveTodo(
-            @Auth AuthUser authUser,
             @Valid @RequestBody TodoSaveRequest todoSaveRequest
     ) {
-        return ResponseEntity.ok(todoService.saveTodo(authUser, todoSaveRequest));
+        AuthUser authUser1 = AuthContext.get();
+        return ResponseEntity.ok(todoService.saveTodo(authUser1, todoSaveRequest));
     }
 
     @GetMapping("/todos")

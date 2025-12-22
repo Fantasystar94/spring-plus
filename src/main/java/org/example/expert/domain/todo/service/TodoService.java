@@ -1,6 +1,7 @@
 package org.example.expert.domain.todo.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class TodoService {
 
     private final TodoRepository todoRepository;
@@ -29,7 +31,10 @@ public class TodoService {
 
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
         User user = User.fromAuthUser(authUser);    //threadLocale
-
+        Long userId = authUser.getId();
+        String nickname = authUser.getNickname();
+        String email = authUser.getEmail();
+        log.info("userId:{},nickname:{},email:{}",userId,nickname,email);
         String weather = weatherClient.getTodayWeather();
 
         Todo newTodo = new Todo(
