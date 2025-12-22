@@ -28,7 +28,7 @@ public class TodoService {
     private final WeatherClient weatherClient;
 
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
-        User user = User.fromAuthUser(authUser);    //threadLocale
+        User user = User.fromAuthUser(authUser);    //security Authentication
 
         String weather = weatherClient.getTodayWeather();
 
