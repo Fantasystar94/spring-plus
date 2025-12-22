@@ -3,8 +3,8 @@ package org.example.expert.domain.todo.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.config.Auth;
 import org.example.expert.config.AuthContext;
-import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
@@ -27,8 +27,8 @@ public class TodoController {
     public ResponseEntity<TodoSaveResponse> saveTodo(
             @Valid @RequestBody TodoSaveRequest todoSaveRequest
     ) {
-        AuthUser authUser1 = AuthContext.get();
-        return ResponseEntity.ok(todoService.saveTodo(authUser1, todoSaveRequest));
+        AuthUser authUser = AuthContext.get();
+        return ResponseEntity.ok(todoService.saveTodo(authUser, todoSaveRequest));
     }
 
     @GetMapping("/todos")

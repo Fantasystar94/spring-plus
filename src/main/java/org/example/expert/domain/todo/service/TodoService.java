@@ -30,7 +30,7 @@ public class TodoService {
     private final WeatherClient weatherClient;
 
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
-        User user = User.fromAuthUser(authUser);    //threadLocale
+        User user = User.fromAuthUser(authUser);    //AuthContext
         Long userId = authUser.getId();
         String nickname = authUser.getNickname();
         String email = authUser.getEmail();
