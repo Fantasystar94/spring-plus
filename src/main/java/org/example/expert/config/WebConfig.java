@@ -1,4 +1,4 @@
 package org.example.expert.config;
 
-public class AuthContext {
+public class WebConfig {
 }
