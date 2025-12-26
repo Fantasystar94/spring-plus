@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UserRole role = UserRole.valueOf(claims.get("userRole",String.class));
 
         AuthUser authUser = new AuthUser(Long.valueOf(userId), email, nickname, role);
-
+        request.setAttribute("authUser",authUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 authUser,
                 null,
@@ -58,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.info("authentication:{}",authentication);
         filterChain.doFilter(request, response);
     }
 

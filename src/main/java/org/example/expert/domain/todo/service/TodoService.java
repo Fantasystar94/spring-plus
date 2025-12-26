@@ -1,12 +1,14 @@
 package org.example.expert.domain.todo.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -18,10 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class TodoService {
 
     private final TodoRepository todoRepository;
@@ -45,7 +49,7 @@ public class TodoService {
                 savedTodo.getTitle(),
                 savedTodo.getContents(),
                 weather,
-                new UserResponse(user.getId(), user.getEmail())
+                new UserResponse(user.getId(), user.getEmail(), user.getNickname())
         );
     }
 
@@ -75,7 +79,7 @@ public class TodoService {
                 todo.getTitle(),
                 todo.getContents(),
                 todo.getWeather(),
-                new UserResponse(todo.getUser().getId(), todo.getUser().getEmail()),
+                new UserResponse(todo.getUser().getId(), todo.getUser().getEmail(),todo.getUser().getNickname()),
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         ));
@@ -83,5 +87,24 @@ public class TodoService {
 
     public TodoResponse getTodo(long todoId) {
         return todoRepository.findByIdWithUserWithDsl(todoId);
+    }
+    /*
+    * - 검색 조건은 다음과 같아요.
+    - 검색 키워드로 일정의 제목을 검색할 수 있어요.
+        - 제목은 부분적으로 일치해도 검색이 가능해요.
+    - 일정의 생성일 범위로 검색할 수 있어요.
+        - 일정을 생성일 최신순으로 정렬해주세요.
+    - 담당자의 닉네임으로도 검색이 가능해요.
+        - 닉네임은 부분적으로 일치해도 검색이 가능해요.
+- 다음의 내용을 포함해서 검색 결과를 반환해주세요.
+    - 일정에 대한 모든 정보가 아닌, 제목만 넣어주세요.
+    - 해당 일정의 담당자 수를 넣어주세요.
+    - 해당 일정의 총 댓글 개수를 넣어주세요.
+- 검색 결과는 페이징 처리되어 반환되도록 합니다.
+    * */
+    public Page<TodoSearchResponse> todoSearch(int page, int size, String title, LocalDateTime startDate, String nickname) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        log.info("title:{}",title);
+        return todoRepository.findTodosBySearchQuery(pageable, title, startDate, nickname);
     }
 }
