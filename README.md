@@ -12,4 +12,4 @@
 
 ## RDS 설정
 <img width="1590" height="349" alt="image" src="https://github.com/user-attachments/assets/10207e42-c00c-4ef3-983e-365ca49eaa25" />
-<img width="1284" height="521" alt="image" src="https://github.com/user-attachments/assets/b8de2bd9-30d5-46be-8f17-dd4c4d12ddf7" />
+<img width="1287" height="526" alt="image" src="https://github.com/user-attachments/assets/a1376c71-ba33-4203-9d1b-76fdae086cb3" />
