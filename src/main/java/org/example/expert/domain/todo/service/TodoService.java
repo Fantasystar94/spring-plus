@@ -1,20 +1,14 @@
 package org.example.expert.domain.todo.service;
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import lombok.extern.slf4j.Slf4j;
-=======
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
-<<<<<<< HEAD
 import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
-=======
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -24,31 +18,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-<<<<<<< HEAD
 import java.time.LocalDateTime;
-import java.util.List;
-
-@Service
-@RequiredArgsConstructor
-@Transactional
-@Slf4j
-=======
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
+@Slf4j
 public class TodoService {
 
     private final TodoRepository todoRepository;
     private final WeatherClient weatherClient;
 
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
-<<<<<<< HEAD
         User user = User.fromAuthUser(authUser);    //security Authentication
-=======
-        User user = User.fromAuthUser(authUser);
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 
         String weather = weatherClient.getTodayWeather();
 
@@ -65,7 +46,6 @@ public class TodoService {
                 savedTodo.getTitle(),
                 savedTodo.getContents(),
                 weather,
-<<<<<<< HEAD
                 new UserResponse(user.getId(), user.getEmail(), user.getNickname())
         );
     }
@@ -90,34 +70,19 @@ public class TodoService {
         } else { //아무것도 없음
             todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
         }
-=======
-                new UserResponse(user.getId(), user.getEmail())
-        );
-    }
-
-    public Page<TodoResponse> getTodos(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
-
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),
                 todo.getContents(),
                 todo.getWeather(),
-<<<<<<< HEAD
                 new UserResponse(todo.getUser().getId(), todo.getUser().getEmail(),todo.getUser().getNickname()),
-=======
-                new UserResponse(todo.getUser().getId(), todo.getUser().getEmail()),
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         ));
     }
 
+
     public TodoResponse getTodo(long todoId) {
-<<<<<<< HEAD
         return todoRepository.findByIdWithUserWithDsl(todoId);
     }
     /*
@@ -138,21 +103,5 @@ public class TodoService {
         Pageable pageable = PageRequest.of(page - 1, size);
         log.info("title:{}",title);
         return todoRepository.findTodosBySearchQuery(pageable, title, startDate, nickname);
-=======
-        Todo todo = todoRepository.findByIdWithUser(todoId)
-                .orElseThrow(() -> new InvalidRequestException("Todo not found"));
-
-        User user = todo.getUser();
-
-        return new TodoResponse(
-                todo.getId(),
-                todo.getTitle(),
-                todo.getContents(),
-                todo.getWeather(),
-                new UserResponse(user.getId(), user.getEmail()),
-                todo.getCreatedAt(),
-                todo.getModifiedAt()
-        );
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
     }
 }

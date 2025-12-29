@@ -30,11 +30,7 @@ public class Todo extends Timestamped {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)    //영속성 전이
-=======
-    @OneToMany(mappedBy = "todo")
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
     private List<Manager> managers = new ArrayList<>();
 
     public Todo(String title, String contents, String weather, User user) {

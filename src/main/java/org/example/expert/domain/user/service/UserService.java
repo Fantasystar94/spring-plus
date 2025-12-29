@@ -1,7 +1,6 @@
 package org.example.expert.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import lombok.extern.slf4j.Slf4j;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
-
-@Slf4j
-=======
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
@@ -27,16 +23,14 @@ import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-<<<<<<< HEAD
     private static final String USER_NICKNAME_KEY = "user:nickname:";
     private final RedisTemplate<String, UserResponse> usereRedisTemplate;
 
@@ -44,14 +38,7 @@ public class UserService {
     public UserResponse getUser(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
         return new UserResponse(user.getId(), user.getEmail(), user.getNickname());
-=======
-
-    public UserResponse getUser(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
-        return new UserResponse(user.getId(), user.getEmail());
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
     }
-
     @Transactional
     public void changePassword(long userId, UserChangePasswordRequest userChangePasswordRequest) {
         validateNewPassword(userChangePasswordRequest);
@@ -77,7 +64,6 @@ public class UserService {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
     }
-<<<<<<< HEAD
 
     @Transactional
     public void updateNickname(Long userId, UserNicknameUpdate request) {
@@ -103,6 +89,4 @@ public class UserService {
         usereRedisTemplate.opsForValue().set(key,dto,5, TimeUnit.MINUTES);
         return dto;
     }
-=======
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 }

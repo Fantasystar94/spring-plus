@@ -17,9 +17,6 @@ public class SignupRequest {
     private String password;
     @NotBlank
     private String userRole;
-<<<<<<< HEAD
     @NotBlank
     private String nickname;
-=======
->>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 }
