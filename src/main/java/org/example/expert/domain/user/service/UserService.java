@@ -1,6 +1,7 @@
 package org.example.expert.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
@@ -8,9 +9,14 @@ import org.example.expert.domain.user.dto.request.UserNicknameUpdate;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.TimeUnit;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,6 +24,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final String USER_NICKNAME_KEY = "user:nickname:";
+    private final RedisTemplate<String, UserResponse> usereRedisTemplate;
+
 
     public UserResponse getUser(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
@@ -55,5 +64,23 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
         user.updateNickname(request.getNickname());
         userRepository.save(user);
+    }
+
+    @Transactional
+    //@Cacheable(cacheNames = "userByNickname", key = "#nickname")  //cacheable 사용할 경우
+    public UserResponse getUserByNickname(String nickname) {
+        String key = USER_NICKNAME_KEY + nickname;
+
+        UserResponse cached = usereRedisTemplate.opsForValue().get(key);
+
+        if (cached != null) {
+            log.info("cached:{}", cached);
+            return cached;
+        }
+
+        User user = userRepository.findByNickname(nickname).orElseThrow(()->new InvalidRequestException("User not found"));
+        UserResponse dto = new UserResponse(user.getId(), user.getEmail(), user.getNickname());
+        usereRedisTemplate.opsForValue().set(key,dto,5, TimeUnit.MINUTES);
+        return dto;
     }
 }

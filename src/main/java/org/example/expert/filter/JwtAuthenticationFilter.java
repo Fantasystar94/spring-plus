@@ -33,6 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         logger.info("security건너감");
         String brToken = request.getHeader("Authorization");
 
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/health") || uri.startsWith("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         //substring token
         if (brToken == null) {
             // 토큰이 없는 경우 400을 반환합니다.
@@ -65,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/auth/");
+        return path.startsWith("/auth/") || path.startsWith("/health/");
     }
+
 }

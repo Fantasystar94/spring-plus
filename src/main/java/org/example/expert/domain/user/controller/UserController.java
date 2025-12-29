@@ -30,4 +30,9 @@ public class UserController {
     public  void updateNickname(@Auth AuthUser authUser, @RequestBody UserNicknameUpdate userNicknameUpdate) {
         userService.updateNickname(authUser.getId(), userNicknameUpdate);
     }
+
+    @GetMapping("/users/nickname/{nickname}")
+    public ResponseEntity<UserResponse> getUserByNickname(@PathVariable String nickname) {
+        return ResponseEntity.ok(userService.getUserByNickname(nickname));
+    }
 }
