@@ -43,7 +43,11 @@ public class CommentService {
         return new CommentSaveResponse(
                 savedComment.getId(),
                 savedComment.getContents(),
+<<<<<<< HEAD
                 new UserResponse(user.getId(), user.getEmail(),user.getNickname())
+=======
+                new UserResponse(user.getId(), user.getEmail())
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
         );
     }
 
@@ -56,7 +60,11 @@ public class CommentService {
             CommentResponse dto = new CommentResponse(
                     comment.getId(),
                     comment.getContents(),
+<<<<<<< HEAD
                     new UserResponse(user.getId(), user.getEmail(), user.getNickname())
+=======
+                    new UserResponse(user.getId(), user.getEmail())
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
             );
             dtoList.add(dto);
         }

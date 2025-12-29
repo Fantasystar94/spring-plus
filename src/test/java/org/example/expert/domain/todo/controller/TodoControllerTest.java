@@ -69,9 +69,15 @@ class TodoControllerTest {
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
+<<<<<<< HEAD
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+=======
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.name()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
                 .andExpect(jsonPath("$.message").value("Todo not found"));
     }
 }

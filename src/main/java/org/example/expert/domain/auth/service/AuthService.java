@@ -38,12 +38,20 @@ public class AuthService {
         User newUser = new User(
                 signupRequest.getEmail(),
                 encodedPassword,
+<<<<<<< HEAD
                 userRole,
                 signupRequest.getNickname()
         );
         User savedUser = userRepository.save(newUser);
 
         String bearerToken = jwtUtil.createToken(savedUser.getId(), savedUser.getEmail(), userRole, savedUser.getNickname());
+=======
+                userRole
+        );
+        User savedUser = userRepository.save(newUser);
+
+        String bearerToken = jwtUtil.createToken(savedUser.getId(), savedUser.getEmail(), userRole);
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 
         return new SignupResponse(bearerToken);
     }
@@ -57,7 +65,11 @@ public class AuthService {
             throw new AuthException("잘못된 비밀번호입니다.");
         }
 
+<<<<<<< HEAD
         String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole(), user.getNickname());
+=======
+        String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 
         return new SigninResponse(bearerToken);
     }

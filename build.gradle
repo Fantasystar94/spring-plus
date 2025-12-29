@@ -41,6 +41,7 @@ dependencies {
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+<<<<<<< HEAD
     //querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
@@ -66,3 +67,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+=======
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079

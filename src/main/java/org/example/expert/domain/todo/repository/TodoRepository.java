@@ -7,10 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoCustomRepository {
+=======
+import java.util.Optional;
+
+public interface TodoRepository extends JpaRepository<Todo, Long> {
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 
     @Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user u ORDER BY t.modifiedAt DESC")
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
@@ -19,6 +25,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoCustomRep
             "LEFT JOIN t.user " +
             "WHERE t.id = :todoId")
     Optional<Todo> findByIdWithUser(@Param("todoId") Long todoId);
+<<<<<<< HEAD
 
     //웨더만 있는 경우 검색
     @Query("select t from Todo t where t.weather =:weather")
@@ -39,4 +46,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoCustomRep
     //웨더도 있고 수정일도 있는 경우 검색
     @Query("select t from Todo t where t.weather =:weather and t.modifiedAt between  :startDate and :endDate")
     Page<Todo> findTodoByWeatherAndDate(@Param("weather")String weather, @Param("startDate")LocalDateTime startDate, @Param("endDate") LocalDateTime endDate,Pageable pageable);
+=======
+>>>>>>> 8b7a4b7afb803fe3e3fc6c824d72746769f30079
 }
